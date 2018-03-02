@@ -244,145 +244,145 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
         }
     }
 
-    @Test
-    public void putToCacheAndDoNotInvalidateFromClientNearCacheWhenPerEntryInvalidationIsDisabled() {
-        // we need to use another cache name, to get the invalidation setting working
-        String cacheName = "disabledPerEntryInvalidationCache";
-
-        NearCacheConfig nearCacheConfig = createNearCacheConfig(InMemoryFormat.NATIVE)
-                .setName(cacheName)
-                .setInvalidateOnChange(true);
-
-        CacheConfig<Integer, String> cacheConfig = createCacheConfig(InMemoryFormat.NATIVE);
-        cacheConfig.setName(cacheName);
-        cacheConfig.setDisablePerEntryInvalidationEvents(true);
-
-        final NearCacheTestContext<Integer, String, Object, String> nearCacheTestContext1
-                = createNearCacheTest(cacheName, nearCacheConfig, cacheConfig);
-        final NearCacheTestContext<Integer, String, Object, String> nearCacheTestContext2
-                = createNearCacheTest(cacheName, nearCacheConfig, cacheConfig);
-
-        // put cache record from client-1
-        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
-            nearCacheTestContext1.nearCacheAdapter.put(i, generateValueFromKey(i));
-        }
-
-        // get records from client-2
-        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
-            final Integer key = i;
-            final String value = nearCacheTestContext2.nearCacheAdapter.get(key);
-            // records are stored in the cache as async not sync, so these records will be there in cache eventually
-            assertTrueEventually(new AssertTask() {
-                @Override
-                public void run() throws Exception {
-                    assertEquals(value, getFromNearCache(nearCacheTestContext2, key));
-                }
-            });
-        }
-
-        // update cache record from client-1
-        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
-            // update the cache records with new values
-            nearCacheTestContext1.nearCacheAdapter.put(i, generateValueFromKey(i + INITIAL_POPULATION_COUNT));
-        }
-
-        int invalidationEventFlushFreq = Integer.parseInt(CACHE_INVALIDATION_MESSAGE_BATCH_FREQUENCY_SECONDS.getDefaultValue());
-        // wait some time and if there are invalidation events to be sent in batch
-        // (we assume that they should be flushed, received and processed in this time window already)
-        sleepSeconds(2 * invalidationEventFlushFreq);
-
-        // get records from client-2
-        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
-            String actualValue = nearCacheTestContext2.nearCacheAdapter.get(i);
-            String expectedValue = generateValueFromKey(i);
-            // verify that still we have old records in the Near Cache, because, per entry invalidation events are disabled
-            assertEquals(expectedValue, actualValue);
-        }
-
-        nearCacheTestContext1.nearCacheAdapter.clear();
-
-        // can't get expired records from client-2
-        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
-            final int key = i;
-            // records are stored in the Near Cache will be invalidated eventually, since cache records are cleared
-            // because we just disable per entry invalidation events, not full-flush events
-            assertTrueEventually(new AssertTask() {
-                @Override
-                public void run() throws Exception {
-                    assertNull(getFromNearCache(nearCacheTestContext2, key));
-                }
-            });
-        }
-    }
-
-    @Test
-    public void when_shuttingDown_invalidationEventIsNotReceived() {
-        populateMemberCache();
-
-        if (false) {
-            testContext.dataInstance.shutdown();
-        } else {
-            testContext.nearCacheInstance.shutdown();
-        }
-
-        assertNoFurtherInvalidation();
-    }
-
-    @Test
-    public void when_cacheDestroyed_invalidationEventIsReceived() {
-        populateMemberCache();
-
-        if (false) {
-            testContext.dataAdapter.destroy();
-        } else {
-            testContext.nearCacheAdapter.destroy();
-        }
-
-        assertLeastInvalidationCount(1);
-    }
-
-    @Test
-    public void when_cacheCleared_invalidationEventIsReceived() {
-        populateMemberCache();
-
-        if (false) {
-            testContext.dataAdapter.clear();
-        } else {
-            testContext.nearCacheAdapter.clear();
-        }
-
-        assertNoFurtherInvalidationThan(1);
-    }
-
-    @Test
-    public void when_cacheClosed_invalidationEventIsNotReceived() {
-        populateMemberCache();
-
-        if (false) {
-            testContext.dataAdapter.close();
-        } else {
-            testContext.nearCacheAdapter.close();
-        }
-
-        assertNoFurtherInvalidation();
-    }
-
-    /**
-     * When CacheManager.destroyCache() is invoked from client-side CacheManager, an invalidation event is received.
-     * When invoked from a member-side CacheManager, invalidation event is not received.
-     */
-    @Test
-    public void when_cacheManagerDestroyCacheInvoked_invalidationEventMayBeReceived() {
-        populateMemberCache();
-
-        if (false) {
-            testContext.memberCacheManager.destroyCache(DEFAULT_CACHE_NAME);
-        } else {
-            testContext.cacheManager.destroyCache(DEFAULT_CACHE_NAME);
-        }
-
-        assertLeastInvalidationCount(1);
-    }
+//    @Test
+//    public void putToCacheAndDoNotInvalidateFromClientNearCacheWhenPerEntryInvalidationIsDisabled() {
+//        // we need to use another cache name, to get the invalidation setting working
+//        String cacheName = "disabledPerEntryInvalidationCache";
+//
+//        NearCacheConfig nearCacheConfig = createNearCacheConfig(InMemoryFormat.NATIVE)
+//                .setName(cacheName)
+//                .setInvalidateOnChange(true);
+//
+//        CacheConfig<Integer, String> cacheConfig = createCacheConfig(InMemoryFormat.NATIVE);
+//        cacheConfig.setName(cacheName);
+//        cacheConfig.setDisablePerEntryInvalidationEvents(true);
+//
+//        final NearCacheTestContext<Integer, String, Object, String> nearCacheTestContext1
+//                = createNearCacheTest(cacheName, nearCacheConfig, cacheConfig);
+//        final NearCacheTestContext<Integer, String, Object, String> nearCacheTestContext2
+//                = createNearCacheTest(cacheName, nearCacheConfig, cacheConfig);
+//
+//        // put cache record from client-1
+//        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
+//            nearCacheTestContext1.nearCacheAdapter.put(i, generateValueFromKey(i));
+//        }
+//
+//        // get records from client-2
+//        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
+//            final Integer key = i;
+//            final String value = nearCacheTestContext2.nearCacheAdapter.get(key);
+//            // records are stored in the cache as async not sync, so these records will be there in cache eventually
+//            assertTrueEventually(new AssertTask() {
+//                @Override
+//                public void run() throws Exception {
+//                    assertEquals(value, getFromNearCache(nearCacheTestContext2, key));
+//                }
+//            });
+//        }
+//
+//        // update cache record from client-1
+//        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
+//            // update the cache records with new values
+//            nearCacheTestContext1.nearCacheAdapter.put(i, generateValueFromKey(i + INITIAL_POPULATION_COUNT));
+//        }
+//
+//        int invalidationEventFlushFreq = Integer.parseInt(CACHE_INVALIDATION_MESSAGE_BATCH_FREQUENCY_SECONDS.getDefaultValue());
+//        // wait some time and if there are invalidation events to be sent in batch
+//        // (we assume that they should be flushed, received and processed in this time window already)
+//        sleepSeconds(2 * invalidationEventFlushFreq);
+//
+//        // get records from client-2
+//        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
+//            String actualValue = nearCacheTestContext2.nearCacheAdapter.get(i);
+//            String expectedValue = generateValueFromKey(i);
+//            // verify that still we have old records in the Near Cache, because, per entry invalidation events are disabled
+//            assertEquals(expectedValue, actualValue);
+//        }
+//
+//        nearCacheTestContext1.nearCacheAdapter.clear();
+//
+//        // can't get expired records from client-2
+//        for (int i = 0; i < INITIAL_POPULATION_COUNT; i++) {
+//            final int key = i;
+//            // records are stored in the Near Cache will be invalidated eventually, since cache records are cleared
+//            // because we just disable per entry invalidation events, not full-flush events
+//            assertTrueEventually(new AssertTask() {
+//                @Override
+//                public void run() throws Exception {
+//                    assertNull(getFromNearCache(nearCacheTestContext2, key));
+//                }
+//            });
+//        }
+//    }
+//
+//    @Test
+//    public void when_shuttingDown_invalidationEventIsNotReceived() {
+//        populateMemberCache();
+//
+//        if (false) {
+//            testContext.dataInstance.shutdown();
+//        } else {
+//            testContext.nearCacheInstance.shutdown();
+//        }
+//
+//        assertNoFurtherInvalidation();
+//    }
+//
+//    @Test
+//    public void when_cacheDestroyed_invalidationEventIsReceived() {
+//        populateMemberCache();
+//
+//        if (false) {
+//            testContext.dataAdapter.destroy();
+//        } else {
+//            testContext.nearCacheAdapter.destroy();
+//        }
+//
+//        assertLeastInvalidationCount(1);
+//    }
+//
+//    @Test
+//    public void when_cacheCleared_invalidationEventIsReceived() {
+//        populateMemberCache();
+//
+//        if (false) {
+//            testContext.dataAdapter.clear();
+//        } else {
+//            testContext.nearCacheAdapter.clear();
+//        }
+//
+//        assertNoFurtherInvalidationThan(1);
+//    }
+//
+//    @Test
+//    public void when_cacheClosed_invalidationEventIsNotReceived() {
+//        populateMemberCache();
+//
+//        if (false) {
+//            testContext.dataAdapter.close();
+//        } else {
+//            testContext.nearCacheAdapter.close();
+//        }
+//
+//        assertNoFurtherInvalidation();
+//    }
+//
+//    /**
+//     * When CacheManager.destroyCache() is invoked from client-side CacheManager, an invalidation event is received.
+//     * When invoked from a member-side CacheManager, invalidation event is not received.
+//     */
+//    @Test
+//    public void when_cacheManagerDestroyCacheInvoked_invalidationEventMayBeReceived() {
+//        populateMemberCache();
+//
+//        if (false) {
+//            testContext.memberCacheManager.destroyCache(DEFAULT_CACHE_NAME);
+//        } else {
+//            testContext.cacheManager.destroyCache(DEFAULT_CACHE_NAME);
+//        }
+//
+//        assertLeastInvalidationCount(1);
+//    }
 
     @SuppressWarnings("unchecked")
     private <K, V, NK, NV> NearCacheTestContext<K, V, NK, NV> createNearCacheTest(String cacheName,
