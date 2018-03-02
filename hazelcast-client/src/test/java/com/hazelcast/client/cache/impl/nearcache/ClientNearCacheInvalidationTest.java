@@ -38,6 +38,7 @@ import com.hazelcast.internal.nearcache.NearCacheTestContext;
 import com.hazelcast.internal.nearcache.NearCacheTestContextBuilder;
 import com.hazelcast.spi.serialization.SerializationService;
 import com.hazelcast.test.AssertTask;
+import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.HazelcastParametersRunnerFactory;
 import com.hazelcast.test.HazelcastTestSupport;
 import com.hazelcast.test.annotation.SlowTest;
@@ -81,8 +82,7 @@ import static org.junit.Assert.assertTrue;
  * registration is removed <b>before</b> the invocation for destroying the cache is sent to the member, so no event can be
  * received.
  */
-@RunWith(Parameterized.class)
-@UseParametersRunnerFactory(HazelcastParametersRunnerFactory.class)
+@RunWith(HazelcastParallelClassRunner.class)
 @Category(SlowTest.class)
 @SuppressWarnings({"ConstantConditions", "WeakerAccess"})
 public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
@@ -101,21 +101,21 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
 
     // when true, invoke operations which are supposed to deliver invalidation events from a Cache instance on a member
     // otherwise use the client-side proxy.
-    @Parameter
-    public boolean invokeCacheOperationsFromMember;
-
-    @Parameter(1)
-    public InMemoryFormat inMemoryFormat;
-
-    @Parameters(name = "fromMember:{0}, format:{1}")
-    public static Collection<Object[]> parameters() {
-        return asList(new Object[][]{
-                {false, InMemoryFormat.BINARY},
-                {false, InMemoryFormat.OBJECT},
-                {true, InMemoryFormat.BINARY},
-                {true, InMemoryFormat.OBJECT},
-        });
-    }
+//    @Parameter
+//    public boolean invokeCacheOperationsFromMember;
+//
+//    @Parameter(1)
+//    public InMemoryFormat inMemoryFormat;
+//
+//    @Parameters(name = "fromMember:{0}, format:{1}")
+//    public static Collection<Object[]> parameters() {
+//        return asList(new Object[][]{
+//                {false, InMemoryFormat.BINARY},
+//                {false, InMemoryFormat.OBJECT},
+//                {true, InMemoryFormat.BINARY},
+//                {true, InMemoryFormat.OBJECT},
+//        });
+//    }
 
     private TestHazelcastFactory hazelcastFactory;
     private NearCacheTestContext<Integer, String, Object, String> testContext;
@@ -132,7 +132,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
         }
         waitAllForSafeState(allMembers);
 
-        NearCacheConfig nearCacheConfig = createNearCacheConfig(inMemoryFormat);
+        NearCacheConfig nearCacheConfig = createNearCacheConfig(InMemoryFormat.NATIVE);
         ClientConfig clientConfig = createClientConfig()
                 .addNearCacheConfig(nearCacheConfig);
 
@@ -142,7 +142,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
         HazelcastClientCacheManager cacheManager = (HazelcastClientCacheManager) provider.getCacheManager();
         HazelcastServerCacheManager memberCacheManager = (HazelcastServerCacheManager) memberProvider.getCacheManager();
 
-        CacheConfig<Integer, String> cacheConfig = createCacheConfig(inMemoryFormat);
+        CacheConfig<Integer, String> cacheConfig = createCacheConfig(InMemoryFormat.NATIVE);
         ICache<Integer, String> cache = cacheManager.createCache(DEFAULT_CACHE_NAME, cacheConfig);
         ICache<Integer, String> memberCache = memberCacheManager.getCache(getPrefixedCacheName(DEFAULT_CACHE_NAME, null, null));
 
@@ -189,11 +189,11 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
         warmUpPartitions(testContext.dataInstance, instanceToShutdown);
         waitAllForSafeState(testContext.dataInstance, instanceToShutdown);
 
-        NearCacheConfig nearCacheConfig = createNearCacheConfig(inMemoryFormat)
+        NearCacheConfig nearCacheConfig = createNearCacheConfig(InMemoryFormat.NATIVE)
                 .setInvalidateOnChange(true)
                 .setLocalUpdatePolicy(NearCacheConfig.LocalUpdatePolicy.CACHE_ON_UPDATE);
 
-        CacheConfig<String, String> cacheConfig = createCacheConfig(inMemoryFormat);
+        CacheConfig<String, String> cacheConfig = createCacheConfig(InMemoryFormat.NATIVE);
         final NearCacheTestContext<String, String, Object, String> nearCacheTestContext1
                 = createNearCacheTest(DEFAULT_CACHE_NAME, nearCacheConfig, cacheConfig);
         final NearCacheTestContext<String, String, Object, String> nearCacheTestContext2
@@ -249,11 +249,11 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
         // we need to use another cache name, to get the invalidation setting working
         String cacheName = "disabledPerEntryInvalidationCache";
 
-        NearCacheConfig nearCacheConfig = createNearCacheConfig(inMemoryFormat)
+        NearCacheConfig nearCacheConfig = createNearCacheConfig(InMemoryFormat.NATIVE)
                 .setName(cacheName)
                 .setInvalidateOnChange(true);
 
-        CacheConfig<Integer, String> cacheConfig = createCacheConfig(inMemoryFormat);
+        CacheConfig<Integer, String> cacheConfig = createCacheConfig(InMemoryFormat.NATIVE);
         cacheConfig.setName(cacheName);
         cacheConfig.setDisablePerEntryInvalidationEvents(true);
 
@@ -319,7 +319,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
     public void when_shuttingDown_invalidationEventIsNotReceived() {
         populateMemberCache();
 
-        if (invokeCacheOperationsFromMember) {
+        if (false) {
             testContext.dataInstance.shutdown();
         } else {
             testContext.nearCacheInstance.shutdown();
@@ -332,7 +332,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
     public void when_cacheDestroyed_invalidationEventIsReceived() {
         populateMemberCache();
 
-        if (invokeCacheOperationsFromMember) {
+        if (false) {
             testContext.dataAdapter.destroy();
         } else {
             testContext.nearCacheAdapter.destroy();
@@ -345,7 +345,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
     public void when_cacheCleared_invalidationEventIsReceived() {
         populateMemberCache();
 
-        if (invokeCacheOperationsFromMember) {
+        if (false) {
             testContext.dataAdapter.clear();
         } else {
             testContext.nearCacheAdapter.clear();
@@ -358,7 +358,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
     public void when_cacheClosed_invalidationEventIsNotReceived() {
         populateMemberCache();
 
-        if (invokeCacheOperationsFromMember) {
+        if (false) {
             testContext.dataAdapter.close();
         } else {
             testContext.nearCacheAdapter.close();
@@ -375,7 +375,7 @@ public class ClientNearCacheInvalidationTest extends HazelcastTestSupport {
     public void when_cacheManagerDestroyCacheInvoked_invalidationEventMayBeReceived() {
         populateMemberCache();
 
-        if (invokeCacheOperationsFromMember) {
+        if (false) {
             testContext.memberCacheManager.destroyCache(DEFAULT_CACHE_NAME);
         } else {
             testContext.cacheManager.destroyCache(DEFAULT_CACHE_NAME);
