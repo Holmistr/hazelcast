@@ -35,6 +35,11 @@ public abstract class LoggerFactorySupport implements LoggerFactory {
 
     @Override
     public final ILogger getLogger(String name) {
+        System.out.println("I'm here");
+        if (name.contains("-")) {
+            System.out.println("===== Hey, I found suspicious logger: " + name);
+            Thread.dumpStack();
+        }
         return ConcurrencyUtil.getOrPutIfAbsent(mapLoggers, name, loggerConstructor);
     }
 
