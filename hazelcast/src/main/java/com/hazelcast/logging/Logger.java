@@ -44,6 +44,8 @@ public final class Logger {
      */
     public static ILogger getLogger(String name) {
         LoggerFactory loggerFactoryToUse = loggerFactory;
+        System.out.println("Jiri - using factory: " + loggerFactoryToUse);
+        System.out.println("Jiri - name: " + name);
         // fast-track when factory is initialized
         if (loggerFactoryToUse != null) {
             return loggerFactoryToUse.getLogger(name);
