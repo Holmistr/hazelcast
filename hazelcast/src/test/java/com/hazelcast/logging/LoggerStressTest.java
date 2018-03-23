@@ -54,6 +54,10 @@ public class LoggerStressTest extends HazelcastTestSupport {
 
     @After
     public void tearDown() throws Exception {
+        // the stress tests generates a lots of artificial loggers, which get stored in the static field, thus
+        // remaining in the memory for the whole tests and can cause OOMEs. We use this to clean up the loggers.
+        ((LoggerFactorySupport) getLoggerFactoryField().get(null)).mapLoggers.clear();
+
         restoreProperty(LOGGING_CLASS_PROP_NAME, originalLoggingClass);
         restoreProperty(LOGGING_TYPE.getName(), originalLoggingType);
         getLoggerFactoryField().set(null, originLoggerFactory);
