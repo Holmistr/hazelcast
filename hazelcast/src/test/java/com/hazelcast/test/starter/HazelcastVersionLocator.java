@@ -69,10 +69,13 @@ public class HazelcastVersionLocator {
 
     // attempts to locate member artifact in local maven repository, then downloads
     private static File locateMember(String version, File target, boolean enterprise) {
+        System.out.println("Mamma mia, jsem tady: " + LOCAL_M2_REPOSITORY_PREFIX + constructPathForMember(version, enterprise));
         File artifact = new File(LOCAL_M2_REPOSITORY_PREFIX + constructPathForMember(version, enterprise));
         if (artifact.exists()) {
+            System.out.println("Toz co už");
             return artifact;
         } else {
+            System.out.println("Tak pojďme stahovat předkožku");
             return downloadMember(version, target, enterprise);
         }
     }
