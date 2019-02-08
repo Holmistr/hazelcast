@@ -18,6 +18,7 @@ package com.hazelcast.osgi;
 
 import com.hazelcast.test.annotation.QuickTest;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -89,6 +90,7 @@ public class HazelcastOSGiIntegrationTest {
      * See this for a fix: https://youtrack.jetbrains.com/issue/IDEA-60965
      */
     @Test
+    @Ignore("https://github.com/hazelcast/hazelcast/issues/9537")
     public void serviceRetrievedSuccessfully() {
         HazelcastOSGiService service = getService();
         assertNotNull(service);
