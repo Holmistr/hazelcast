@@ -1,0 +1,11 @@
+= Installing
+
+As a prerequisite, make sure you have link:https://www.oracle.com/java/technologies/javase-downloads.html[Java^]
+installed on your system. If you prefer to use Docker to start Hazelcast members, make sure it is also installed;
+see its link:https://www.docker.com/products/docker-desktop[download^] page.
+
+To download and install Hazelcast:
+
+* go to the link:https://hazelcast.org/imdg/download/[Downloads^] page
+* download your preferred package (`TAR` or `ZIP`) under the "Server" column
+* extract the downloaded package into a directory.
