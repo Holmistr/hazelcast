@@ -1,5 +1,5 @@
 name: imdg 
 title: Hazelcast IMDG 
-version: '4.1-SNAPSHOT' 
-start_page: ROOT:index.adoc 
-nav: 
+version: '4.1-SNAPSHOT'  
+nav:
+- modules/ROOT/nav.adoc 
