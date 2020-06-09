@@ -1,0 +1,163 @@
+= Your First Client Application
+
+Having a running cluster as started in the above section, let's
+create a client application that connects to this cluster,
+creates a map and populates it. Below, we first briefly give
+how to install a client of your preference and then an example code
+for each. We are assuming that the members and clients are on the
+same machine for simplicity.
+
+[source,java,indent=0,subs="verbatim,attributes",role="primary"]
+.Java
+----
+//Installation notes: There is no need for a separate installation.
+
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
+
+public class MapSample {
+    public static void main(String[] args) {
+        // Start the client and connect to the cluster
+        HazelcastInstance hz = HazelcastClient.newHazelcastClient();
+        // Create a Distributed Map in the cluster
+        IMap map = hz.getMap("my-distributed-map");
+        //Standard Put and Get
+        map.put("1", "John");
+        map.put("2", "Mary");
+        map.put("3", "Jane");
+        // Shutdown the client
+        hz.shutdown();
+    }
+}
+----
+
+[source,c++,indent=0,subs="verbatim,attributes",role="secondary"]
+.C++
+----
+//Installation notes: Download the latest C++ library from
+//https://hazelcast.org/imdg/clients-languages/cplusplus/
+//and see https://github.com/hazelcast/hazelcast-cpp-client#13-downloading-and-installing]
+//for installation instructions.
+
+#include 
+
+using namespace hazelcast::client;
+int main() {
+    // Start the client and connect to the cluster
+    HazelcastClient hz;
+    // Create a Distributed Map in the cluster
+    IMap map = hz.getMap("my-distributed-map");
+    //Standard Put and Get
+    map.put("1", "John");
+    map.put("2", "Mary");
+    map.put("3", "Jane");
+    // Shutdown the client
+    hz.shutdown();
+
+    return 0;
+}
+----
+
+[source,java,indent=0,subs="verbatim,attributes",role="secondary"]
+.C#
+----
+//Installation notes: Run the following command at the NuGet package manager console
+//Install-Package Hazelcast.Net -Pre
+
+using Hazelcast.Client;
+
+namespace Hazelcast.Examples.Org.Website.Samples
+{
+    public class MapSample
+    {
+        public static void Run(string[] args)
+        {
+            // Start the client and connect to the cluster
+            var hz = HazelcastClient.NewHazelcastClient();
+            // Create a Distributed Map in the cluster
+            var map = hz.GetMap("my-distributed-map");
+            //Standard Put and Get
+            map.put("1", "John");
+            map.put("2", "Mary");
+            map.put("3", "Jane");
+            // Shutdown the client
+            hz.Shutdown();
+        }
+    }
+}
+----
+
+[source,javascript,indent=0,subs="verbatim,attributes",role="secondary"]
+.Node.js
+----
+//Installation notes: Run the following command
+//npm install hazelcast-client
+
+var Client = require('hazelcast-client').Client;
+// Start the client and connect to the cluster
+Client.newHazelcastClient().then(function (hz) {
+    var map;
+    // Create a Distributed Map in the cluster
+    hz.getMap('my-distributed-map').then(function (mp) {
+        map = mp;
+        // Standard Put and Get
+        return map.put('1', 'John');
+    });
+        // Shutdown the client
+        hz.shutdown();
+    });
+});
+----
+
+[source,python,indent=0,subs="verbatim,attributes",role="secondary"]
+.Python
+----
+# Installation notes: Run the following command
+# pip install hazelcast-python-client
+
+import hazelcast
+
+if __name__ == "__main__":
+    # Start the client and connect to the cluster
+    hz = hazelcast.HazelcastClient()
+    # Create a Distributed Map in the cluster
+    map = hz.get_map("my-distributed-map").blocking()
+    # Standard Put and Get
+    map.put("1", "John")
+    map.put("2", "Mary")
+    map.put("3", "Jane")
+    # Shutdown the client
+    hz.shutdown()
+----
+
+[source,go,indent=0,subs="verbatim,attributes",role="secondary"]
+.Go
+----
+//Installation notes: Run the following command
+//go get github.com/hazelcast/hazelcast-go-client
+
+import "github.com/hazelcast/hazelcast-go-client"
+
+func mapSampleRun() {
+	// Start the client and connect to the cluster
+	hz, _ := hazelcast.NewClient()
+	// Create a Distributed Map in the cluster
+	mp, _ := hz.GetMap("myDistributedMap")
+	//Standard Put and Get
+	mp.Put("1", "John")
+	mp.Put("2", "Mary")
+	mp.Put("3", "Jane")
+	// Shutdown the client
+	hz.Shutdown()
+} 
+----
+
+For comprehensive information on the clients, see the following sections:
+
+* <<java-client, Java client>>
+* link:https://github.com/hazelcast/hazelcast-cpp-client[C++ client]
+* link:https://github.com/hazelcast/hazelcast-csharp-client[C# client]
+* link:https://github.com/hazelcast/hazelcast-nodejs-client[Node.js client]
+* link:https://github.com/hazelcast/hazelcast-python-client[Python client]
+* link:https://github.com/hazelcast/hazelcast-go-client[Go client]
