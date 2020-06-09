@@ -1,1 +1,6 @@
 * xref:getting-started.adoc[Getting Started]
+** xref:hazelcast-imdg.adoc[What is Hazelcast IMDG]
+** xref:installing.adoc[Installing]
+** xref:creating-cluster.adoc[Creating a Cluster]
+** xref:first-client-app.adoc[Your First Client Application]
+** xref:connecting-management-center.adoc[Connecting Management Center to a Cluster]
