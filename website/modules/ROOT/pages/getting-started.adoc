@@ -1,0 +1,3 @@
+=== Getting started guide ===
+
+This is the first page of a getting started guide.
