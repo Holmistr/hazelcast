@@ -1,0 +1,28 @@
+= Creating a Cluster
+
+You can use the following command on your terminal/command line
+to start a standalone Hazelcast member while you are in the extracted directory:
+
+[source,shell,indent=0,subs="verbatim,attributes",role="primary"]
+.Linux
+----
+sh bin/start.sh
+----
+
+[source,shell,indent=0,subs="verbatim,attributes",role="secondary"]
+.Windows
+----
+bin/start.bat
+----
+
+[source,shell,indent=0,subs="verbatim,attributes",role="secondary"]
+.Docker
+----
+docker run hazelcast/hazelcast:$HAZELCAST_VERSION
+----
+
+Now you have a 1-member cluster. To add one more member to the cluster,
+open another terminal/command line and rerun the above command. The members
+discover each other automatically and form a 2-member cluster. Note that these
+members are started with the default configuration, i.e., `hazelcast.xml` located
+at the `bin` directory.
