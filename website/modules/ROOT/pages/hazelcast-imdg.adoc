@@ -1,0 +1,31 @@
+= What is Hazelcast IMDG?
+
+Hazelcast IMDG is an open-source distributed in-memory
+object store supporting a wide variety of data structures.
+
+You can use Hazelcast IMDG to store your data in RAM, spread
+and replicate it across your cluster of machines, and perform computations on it.
+Replication gives you the resilience to failures of cluster members.
+
+Hazelcast IMDG is highly scalable and available. Distributed applications can use
+it for distributed caching, synchronization, clustering, processing,
+pub/sub messaging, etc.
+
+It is implemented in Java language and has clients for Java, C++, .NET, REST, Python,
+Go and Node.js. Hazelcast IMDG also speaks Memcached and REST protocols. It plugs into
+Hibernate and can easily be used with any existing database system.
+
+Hazelcast IMDG makes distributed computing simple by
+offering distributed implementations of many developer-friendly interfaces.
+For example, the Map interface provides an In-Memory Key Value store which confers many
+of the advantages of NoSQL in terms of developer friendliness and developer productivity.
+
+Your cloud-native applications can easily use Hazelcast IMDG.
+It is flexible enough to use as a data and computing platform out-of-the-box
+or as a framework for your own cloud-native applications and microservices.
+
+Hazelcast IMDG is designed to be lightweight and easy to use. Since it
+is delivered as a compact library (JAR) and
+has no external dependencies other than Java, it easily
+plugs into your software solution and provides
+distributed data structures and computing utilities.
