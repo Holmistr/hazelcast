@@ -26,4 +26,3 @@ open another terminal/command line and rerun the above command. The members
 discover each other automatically and form a 2-member cluster. Note that these
 members are started with the default configuration, i.e., `hazelcast.xml` located
 at the `bin` directory.
-
