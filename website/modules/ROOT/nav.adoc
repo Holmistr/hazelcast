@@ -4,3 +4,4 @@
 ** xref:creating-cluster.adoc[Creating a Cluster]
 ** xref:first-client-app.adoc[Your First Client Application]
 ** xref:connecting-management-center.adoc[Connecting Management Center to a Cluster]
+* xref:overview:overview.adoc[Overview]
