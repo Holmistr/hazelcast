@@ -11,7 +11,7 @@ partitioning mechanism, use cases and topology.
 You can see the features for all Hazelcast IMDG editions in the following
 architecture diagram.
 
-image::HazelcastArchitecture.png[Hazelcast Architecture]
+image::HazelcastArchitecture.ext[Hazelcast Architecture]
 
 NOTE: You can see small "HD" boxes for some features in the above diagram.
 Those features can use High-Density (HD) Memory Store when it is available.
