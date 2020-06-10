@@ -3,4 +3,3 @@ title: Hazelcast IMDG
 version: '4.1-SNAPSHOT'  
 nav:
 - modules/ROOT/nav.adoc
-- modules/overview/nav.adoc
