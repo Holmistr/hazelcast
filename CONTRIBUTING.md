@@ -3,7 +3,7 @@
 It makes you feel good...
 
 ## Issue Reports
-Thanks for reporting your issue.  Please share with us the following information, to help us resolve your issue quickly and efficiently.
+Thanks for reporting your issue.  Please share with us the following information, to help us resolve your issue quickly and efficiently.dsfsdfdsf
 *	Hazelcast version that you use (e.g. 3.4, also specify whether it is a minor release or the latest snapshot).
 2.	Cluster size, i.e. the number of Hazelcast cluster members.
 3.	Number of the clients.
@@ -15,7 +15,7 @@ Thanks for reporting your issue.  Please share with us the following information
 9.	If available, integration module versions (e.g. Tomcat, Jetty, Spring, Hibernate). Also, include their  detailed configuration information such as `web.xml`, Hibernate configuration and `context.xml` for Spring.
 
 ## Pull Requests
-Thanks for creating your pull request (PR).
+Thanks for creating your pull reqdsfsdfdfuest (PR).
 *	Contributions are submitted, reviewed, and accepted using the pull requests on GitHub.
 2.	In order to merge your PR, please sign the [Contributor Agreement Form].
 3.	Try to make clean commits that are easily readable (including descriptive commit messages).
