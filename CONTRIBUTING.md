@@ -3,7 +3,7 @@
 It makes you feel good...
 
 ## Issue Reports
-Thanks for reporting your issue.  Please share with us the following information, to help us resolve your issue quickly and efficiently.
+Thanks for reporting your issue.  Please share with us the following information, to help us resolve your issue quickly and efficiently.dsfsdfdsf
 *	Hazelcast version that you use (e.g. 3.4, also specify whether it is a minor release or the latest snapshot).
 2.	Cluster size, i.e. the number of Hazelcast cluster members.
 3.	Number of the clients.
