@@ -10,7 +10,7 @@ Thanks for reporting your issue.  Please share with us the following information
 4.	Version of Java. It is also helpful to mention the JVM parameters.
 5.	Operating system. If it is Linux, kernel version is helpful.
 6.	Logs and stack traces, if available.
-7.	Detailed description of the steps to reproduce your issue.
+7.	Detailed descriptioadfadfn of the steps to reproduce your issue.
 8.	Unit test with the `hazelcast.xml` file. If you could include a unit test which reproduces your issue, we would be grateful.
 9.	If available, integration module versions (e.g. Tomcat, Jetty, Spring, Hibernate). Also, include their  detailed configuration information such as `web.xml`, Hibernate configuration and `context.xml` for Spring.
 
